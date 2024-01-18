@@ -3,9 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Slot Registration</title>
+    <title>Parking Management System - Car Slot Registration</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Car Slot Registration</h1>
+    <div class="container">
+        <h2>Car Slot Registration</h2>
+        <form id="registrationForm">
+            <label for="carNumber">Car Number:</label>
+            <input type="text" id="carNumber" name="carNumber" required>
+
+            <label for="ownerName">Owner Name:</label>
+            <input type="text" id="ownerName" name="ownerName" required>
+
+            <label for="contactNumber">Contact Number:</label>
+            <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10}" required>
+
+            <button type="button" onclick="registerCarSlot()">Register Car Slot</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
