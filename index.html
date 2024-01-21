@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parking Management System - Car Slot Registration</title>
+    <title>IoT Smart Parking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="container">
-        <h2>Car Slot Registration</h2>
-        <form id="registrationForm">
-            <label for="carNumber">Car Number:</label>
-            <input type="text" id="carNumber" name="carNumber" required>
+    <div id="parking-form">
+        <h2>Smart Parking System</h2>
+        <form action="#" method="post">
+            <div class="input">
+                <input type="text" id="vehicle-reg-number" name="vehicle-reg-number" required autocomplete="off">
+                <label for="vehicle-reg-number">Vehicle Registration Number:</label>
+            </div>
 
-            <label for="ownerName">Owner Name:</label>
-            <input type="text" id="ownerName" name="ownerName" required>
+            <div class="input">
+                <input type="text" id="vehicle-name" name="vehicle-name" required>
+                <label for="vehicle-name">Vehicle Name:</label>
 
-            <label for="contactNumber">Contact Number:</label>
-            <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10}" required>
+            </div>
 
-            <button type="button" onclick="registerCarSlot()">Register Car Slot</button>
+            <div class="input">
+
+                <input type="text" id="owner-name" name="owner-name" required>
+                <label for="owner-name">Owner Name:</label>
+            </div>
+            <div class="input">
+
+                <input type="date" id="entry-date" name="entry-date" required>
+                <label for="entry-date">Entry Date:</label>
+            </div>
+
+            <div class="input">
+
+                <input type="date" id="exit-date" name="exit-date" required>
+                <label for="exit-date">Exit Date:</label>
+            </div>
+
+            <button class="button">Submit</button>
         </form>
     </div>
-    <script src="script.js"></script>
 </body>
+
 </html>
