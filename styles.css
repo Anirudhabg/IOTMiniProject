@@ -1,137 +1,54 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Playfair Display', serif;
-    background: #212121;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-#parking-form {
-    background: #212121;
-    box-shadow: 15px 15px 30px rgb(25, 25, 25),
-        -15px -15px 30px rgb(60, 60, 60);
-    border-radius: 30px;
-    padding: 20px;
-    max-width: 400px;
-    width: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+  }
+  
+  h1 {
     text-align: center;
-}
-
-input {
+  }
+  
+  #parkingStatus {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="datetime-local"],
+  select {
     width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-
-}
-
-.input {
-    font-family: 'Playfair Display', serif;
-    margin: 1em 0 1em 0;
-    max-width: 100%;
-    position: relative;
-}
-
-.input input {
-    color: #fff;
-    font-size: 100%;
-    padding: 0.8em;
-    outline: none;
-    border: 2px solid rgb(141, 109, 255);
-    background-color: transparent;
-    border-radius: 20px;
+    box-sizing: border-box;
+  }
+  
+  button {
     width: 100%;
-}
-
-.input label {
-    font-size: 100%;
-    position: absolute;
-    left: 0;
-    padding: 0.8em;
-    margin-left: 0.5em;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    color: rgb(255, 255, 255);
-}
-
-.input :is(input:focus, input:valid)~label {
-    transform: translateY(-50%) scale(.9);
-    margin: 0em;
-    margin-left: 1.3em;
-    padding: 0.4em;
-    background-color: #212121;
-}
-
-.inputGroup :is(input:focus, input:valid) {
-    border-color: rgb(37, 37, 211);
-}
-
-
-.button {
-    --color: #00A97F;
-    padding: 0.8em 1.7em;
-    background-color: transparent;
-    border-radius: .3em;
-    position: relative;
-    overflow: hidden;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: .5s;
-    font-weight: 400;
-    font-size: 17px;
-    border: 1px solid;
-    font-family: inherit;
-    text-transform: uppercase;
-    color: var(--color);
-    z-index: 1;
-}
-
-.button::before,
-.button::after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 50px;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    border-radius: 50%;
-    z-index: -1;
-    background-color: var(--color);
-    transition: 1s ease;
-}
-
-.button::before {
-    top: -1em;
-    left: -1em;
-}
-
-.button::after {
-    left: calc(100% + 1em);
-    top: calc(100% + 1em);
-}
-
-.button:hover::before,
-.button:hover::after {
-    height: 410px;
-    width: 410px;
-}
-
-.button:hover {
-    color: rgb(10, 25, 30);
-}
-
-.button:active {
-    filter: brightness(.8);
-}
-
-
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-}
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,51 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IoT Smart Parking</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <title>Smart Parking System</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-    <div id="parking-form">
-        <h2>Smart Parking System</h2>
-        <form action="#" method="post">
-            <div class="input">
-                <input type="text" id="vehicle-reg-number" name="vehicle-reg-number" required autocomplete="off">
-                <label for="vehicle-reg-number">Vehicle Registration Number:</label>
-            </div>
-
-            <div class="input">
-                <input type="text" id="vehicle-name" name="vehicle-name" required>
-                <label for="vehicle-name">Vehicle Name:</label>
-
-            </div>
-
-            <div class="input">
-
-                <input type="text" id="owner-name" name="owner-name" required>
-                <label for="owner-name">Owner Name:</label>
-            </div>
-            <div class="input">
-
-                <input type="date" id="entry-date" name="entry-date" required>
-                <label for="entry-date">Entry Date:</label>
-            </div>
-
-            <div class="input">
-
-                <input type="date" id="exit-date" name="exit-date" required>
-                <label for="exit-date">Exit Date:</label>
-            </div>
-
-            <button class="button">Submit</button>
-        </form>
-    </div>
+  <h1>Smart Parking System</h1>
+  <div id="parkingStatus"></div>
+  <form id="bookingForm">
+    <label for="vehicleNumber">Vehicle Number:</label><br>
+    <input type="text" id="vehicleNumber" name="vehicleNumber" required><br>
+    <label for="ownerName">Owner Name:</label><br>
+    <input type="text" id="ownerName" name="ownerName" required><br>
+    <label for="vehicleName">Vehicle Name:</label><br>
+    <input type="text" id="vehicleName" name="vehicleName" required><br>
+    <label for="entryDate">Entry Date:</label><br>
+    <input type="datetime-local" id="entryDate" name="entryDate" required><br>
+    <label for="exitDate">Exit Date:</label><br>
+    <input type="datetime-local" id="exitDate" name="exitDate" required><br>
+    <label for="slotNumber">Select a slot to book:</label><br>
+    <select id="slotNumber" name="slotNumber">
+      <option value="1">Slot 1</option>
+      <option value="2">Slot 2</option>
+      <option value="3">Slot 3</option>
+      <option value="4">Slot 4</option>
+    </select><br>
+    <button type="button" onclick="bookSlot()">Book Slot</button>
+  </form>
+  <script src="script.js"></script>
 </body>
-
 </html>

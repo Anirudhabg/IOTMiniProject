@@ -1,14 +1,15 @@
-#include<Wire.h>
-#include<LiquidCrystal_I2C.h>
-#include<Servo.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include <Servo.h>
+#include <Ethernet.h> // Include Ethernet library for web server communication
 
 // Define IR sensor pins
-const int irSensorPins[6] = {2, 3, 4, 5, 6, 7}; // Adjust pin numbers accordingly
-const int gateOpenSensorPin = 8;
-const int gateCloseSensorPin = 9;
+const int irSensorPins[4] = {2, 3, 4, 5}; // Adjust pin numbers accordingly
+const int gateOpenSensorPin = 6;
+const int gateCloseSensorPin = 7;
 
 // Define LED pins
-const int ledPins[4] = {10, 11, 12, 13}; // Adjust pin numbers accordingly
+const int ledPins[4] = {8, 9, 10, 11}; // Adjust pin numbers accordingly
 
 // Define servo motor pin
 const int servoPin = A0; // Adjust pin number accordingly
@@ -26,6 +27,10 @@ Servo gateServo;
 // Variables to track parking slots
 int emptySlots = 4;
 
+// Ethernet settings
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED }; // MAC address of Arduino
+EthernetServer server(80); // Port 80 for HTTP
+
 void setup() {
   // Initialize LCD
   lcd.init();
@@ -37,7 +42,7 @@ void setup() {
   gateServo.write(gateClosedAngle);
 
   // Initialize IR sensors
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < 4; i++) {
     pinMode(irSensorPins[i], INPUT);
   }
 
@@ -50,6 +55,10 @@ void setup() {
     pinMode(ledPins[i], OUTPUT);
     digitalWrite(ledPins[i], HIGH); // Turn on all LEDs initially
   }
+  
+  // Initialize Ethernet connection
+  Ethernet.begin(mac);
+  server.begin();
 }
 
 void loop() {
@@ -71,6 +80,14 @@ void loop() {
       displayParkingStatus();
     }
   }
+  
+  // Check for incoming client requests
+  EthernetClient client = server.available();
+  if (client) {
+    // Handle client request
+    processClientRequest(client);
+    client.stop();
+  }
 }
 
 void openGate() {
@@ -85,23 +102,63 @@ void closeGate() {
 
 void displayParkingStatus() {
   lcd.clear();
-  if (emptySlots == 0) {
-    lcd.print("Parking is full");
-  } else {
-    lcd.print("Empty slots: ");
-    for (int i = 0; i < 4; i++) {
-      if (digitalRead(irSensorPins[i]) == LOW) {
-        lcd.print(i + 1); // Display slot number starting from 1
-        lcd.print(" ");
-      }
+  lcd.print("Parking Status:");
+  lcd.setCursor(0, 1);
+  for (int i = 0; i < 4; i++) {
+    if (digitalRead(irSensorPins[i]) == LOW) {
+      lcd.print("Slot ");
+      lcd.print(i + 1);
+      lcd.print(": Empty");
+    } else {
+      lcd.print("Slot ");
+      lcd.print(i + 1);
+      lcd.print(": Booked");
     }
-    lcd.print("\nFull slots: ");
-    for (int i = 0; i < 4; i++) {
-      if (digitalRead(irSensorPins[i]) == HIGH) {
-        lcd.print(i + 1); // Display slot number starting from 1
-        lcd.print(" ");
+    lcd.setCursor(0, 1 + i);
+  }
+  delay(1000); // Adjust delay if necessary
+}
+
+void processClientRequest(EthernetClient client) {
+  // Read the HTTP request
+  String request = "";
+  while (client.connected()) {
+    if (client.available()) {
+      char c = client.read();
+      request += c;
+      if (request.endsWith("\r\n\r\n")) {
+        break;
       }
     }
   }
-  delay(1000); // Adjust delay if necessary
+  
+  // Check if the request is for booking a parking slot
+  if (request.indexOf("GET /book_slot") != -1) {
+    // Parse the slot number from the request
+    int slotNumber = request.substring(request.indexOf("=") + 1, request.indexOf(" ")).toInt();
+    
+    // Update the parking status
+    if (emptySlots > 0 && digitalRead(irSensorPins[slotNumber - 1]) == LOW) {
+      emptySlots--;
+      digitalWrite(ledPins[slotNumber - 1], LOW); // Turn off LED for occupied slot
+      displayParkingStatus();
+      // Send HTTP response
+      client.println("HTTP/1.1 200 OK");
+      client.println("Content-Type: text/plain");
+      client.println();
+      client.println("Slot booked successfully!");
+    } else {
+      // Send HTTP response
+      client.println("HTTP/1.1 400 Bad Request");
+      client.println("Content-Type: text/plain");
+      client.println();
+      client.println("Slot is already booked or parking is full!");
+    }
+  } else {
+    // Send HTTP response for invalid request
+    client.println("HTTP/1.1 400 Bad Request");
+    client.println("Content-Type: text/plain");
+    client.println();
+    client.println("Invalid request!");
+  }
 }
